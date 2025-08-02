@@ -23,11 +23,23 @@ type
             function GetInteger (const AName: string; const ADefault: Integer = 0): Integer;
             function GetDate    (const AName: string; const ADefault: String = ''): TDate;
             function GetDateTime(const AName: string; const ADefault: String = ''): TDateTime;
+            function GetBoolean (const AName: string; const ADefault: Boolean = False): Boolean;
             function HasValue   (const AName: string): Boolean;
   end;
 
 
 implementation
+
+function TJSONObjectHelper.GetBoolean(const AName: string; const ADefault: Boolean): Boolean;
+var
+  Val: TJSONData;
+begin
+  Val := Self.Find(AName);
+  if Assigned(Val) and (Val.JSONType <> jtNull) then
+    Result := Val.AsBoolean
+  else
+    Result := ADefault;
+end;
 
 function TJSONObjectHelper.GetString(const AName: string; const ADefault: string): string;
 var
